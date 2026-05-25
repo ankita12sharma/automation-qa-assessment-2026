@@ -31,20 +31,19 @@ Performed manual QA testing on the RealWorld Demo Application to evaluate functi
 
 ## Deliverables Included
 - QA Report PDF
-- QA Report DOCX
 - Screenshots of identified issues
 - Root Cause Analysis
 
 ## Screenshots – Task 1 QA Testing
 
-### Signup Issue
-![Signup Issue](Images/signup.png)
+### Invalid Email Validation Issue
+![Signup Issue](QAImages/Sigingup.png)
 
-### Login Issue
-![Login Issue](Images/login.png)
+### Article Publishing Without Complete Details
+![Publishing Issue](Images/PublishImg.png)
 
-### Article Issue
-![Article Issue](Images/article.png)
+### Article Update Without Confirmation Popup 
+![Article Issue](Images/EditArticle.png)
 
 ---
 
@@ -72,7 +71,7 @@ Implemented an automation workflow using n8n for API integration, data transform
 ```text
 Task1_QA_Report_AnkitaSharma.pdf
 
-Images/
+QAImages/
 Task2_Workflow_AnkitaSharma.json
 
 workflow-screenshots/
