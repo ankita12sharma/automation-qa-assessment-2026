@@ -35,11 +35,16 @@ Performed manual QA testing on the RealWorld Demo Application to evaluate functi
 - Screenshots of identified issues
 - Root Cause Analysis
 
-## Tools Used
-- Manual Testing
-- Chrome DevTools
-- Microsoft Word
-- GitHub
+## Screenshots – Task 1 QA Testing
+
+### Signup Issue
+![Signup Issue](Images/signup.png)
+
+### Login Issue
+![Login Issue](Images/login.png)
+
+### Article Issue
+![Article Issue](Images/article.png)
 
 ---
 
@@ -62,12 +67,13 @@ Implemented an automation workflow using n8n for API integration, data transform
 
 ---
 
-# Repository Contents
+## Repository Contents
 
 ```text
 Task1_QA_Report_AnkitaSharma.pdf
 
-screenshots/
+Images/
 Task2_Workflow_AnkitaSharma.json
+
 workflow-screenshots/
 README.md
