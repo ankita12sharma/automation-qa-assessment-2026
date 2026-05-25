@@ -14,7 +14,7 @@ Performed manual QA testing on the RealWorld Demo Application to evaluate functi
 
 ## Functionalities Tested
 - User Signup
-- User Login
+- User Sign In
 - Article Creation
 - Article Editing
 - Article Deletion
