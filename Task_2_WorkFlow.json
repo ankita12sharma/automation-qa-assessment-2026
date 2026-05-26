@@ -1,0 +1,205 @@
+{
+  "name": "Task_2_WorkFlow",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [{}]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [-432, -208],
+      "id": "67ea97f5-42c9-424c-82ab-0ef059b883c9",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.github.com/search/repositories?q=javascript&sort=stars&order=desc&per_page=5",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [-240, -208],
+      "id": "692075cc-e359-409b-93d4-0a73ed716bd4",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Grab the data of the current individual item passing through\n\n\n\n// Grab the data nested inside the 'items' object\nconst repo = $json.items;\n\nreturn {\n  name: repo.name,\n  stars: repo.stargazers_count,\n  url: repo.html_url,\n  owner: {\n    login: repo.owner ? repo.owner.login : 'unknown'\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [160, -208],
+      "id": "9fa82ad0-ae2d-49de-b9b5-bc8a24dffb3b",
+      "name": "Code in JavaScript",
+      "alwaysOutputData": true,
+      "executeOnce": true,
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "sendTo": "asharma42551@gmail.com",
+        "subject": " Top GitHub Repos",
+        "message": "Test email from n8n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [784, -224],
+      "id": "0d8ada19-2c38-4292-93f0-0bcdad69b5be",
+      "name": "Send a message",
+      "webhookId": "3565e166-2f73-4d49-9b53-c1b6ef0ba7a1",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "NfuFispoI9YfbL5d",
+          "name": "Gmail OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://api.github.com/repos/{{ $json.owner.login }}/{{ $json.name }}/languages",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [368, -208],
+      "id": "47b810b0-1377-4f35-b7fb-24b58cc64258",
+      "name": "HTTP Request1",
+      "alwaysOutputData": true,
+      "executeOnce": true,
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "22569e89-85ee-41f9-9a03-8ec4d374a0a5",
+              "leftValue": "={{ $('Code in JavaScript').item.json.stars }}",
+              "rightValue": 250000,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [560, -208],
+      "id": "beb6425a-a6fe-455a-87f0-0b66131670a3",
+      "name": "If",
+      "executeOnce": true,
+      "alwaysOutputData": true,
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "items",
+        "include": "allOtherFields",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [-48, -208],
+      "id": "c6db30ce-e1b6-411f-b984-e795edf08c92",
+      "name": "Split Out"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [[]]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "82d335c7-26ac-4e55-8434-4344ac529139",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "86ac085ad25d9a6ce5a75eac7e3dd187d7f78374aa49a5dfc3d640b3d0ded07c"
+  },
+  "id": "ATRWYApIftJbV62r",
+  "tags": []
+}

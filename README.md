@@ -67,29 +67,57 @@ Performed manual QA testing on the RealWorld Demo Application to evaluate functi
 
 # ⚙️ Task 2 – n8n Workflow Automation
 
-Implemented an automation workflow using n8n for API integration, data transformation, conditional handling and notification delivery.
-
----
+Implemented an automation workflow using n8n for API integration, data transformation, conditional handling, and notification delivery.
 
 ## ⚙️ Workflow Features
 
-- Trigger-based workflow execution
-- API integration using HTTP Request nodes
-- Data filtering & transformation
-- Conditional logic handling
-- Notification workflow
-- Error handling implementation
+- **Trigger-Based Workflow Execution:** Automated execution using customizable timed schedule intervals.
+- **API Integration:** Dynamic data queries leveraging multi-tiered external HTTP Request endpoints.
+- **Data Filtering & Transformation:** Advanced mapping techniques using a JavaScript Code node to reduce data bloat.
+- **Conditional Logic Handling:** Automated filtering based on an exact threshold parameter (`stars > 250000`).
+- **Notification Workflow:** Live generation of responsive HTML email updates dispatched through a Gmail node.
+- **Error Handling Implementation:** Structural resilience configurations to capture network anomalies gracefully without crashing the pipeline.
+
+---
+
+## 📋 API Implementation Details
+
+### 1. Data Collection Endpoint (Primary API)
+
+- **API Used:** GitHub Search API
+- **Endpoint:** `https://api.github.com/search/repositories?q=language:javascript&sort=stars`
+- **Purpose:** Collects top trending public repositories from GitHub based on popularity metrics.
+
+### 2. Data Enrichment Endpoint (Secondary API)
+
+- **API Used:** GitHub Repository Languages API
+- **Endpoint:** `https://api.github.com/repos/{{ $json.owner.login }}/{{ $json.name }}/languages`
+- **Purpose:** Takes contextual inputs from upstream nodes to pull down exact code metric profiles for each repository.
+
+---
+
+## 🖼️ Screenshots – Task 2 Automation
+
+### Full Workflow Canvas View
+
+![Canvas View](QAImages/Task_2_Flow.png)
+
+### Successful Execution & Output Data
+
+![Execution Data](QAImages/Task_Flow_2_Gmail.png)
 
 ---
 
 ## 📁 Repository Contents
 
 ```text
+README.md
 Task1_QA_Report_AnkitaSharma(2026).pdf
+Task_2_WorkFlow.json
 
 QAImages/
-Task2_Workflow_AnkitaSharma.json
+  ├──QAImages/Task_2_Flow.png
+  ├──QAImages/Task_Flow_2_Gmail.png
 
-workflow-screenshots/
-README.md
+
 ```
